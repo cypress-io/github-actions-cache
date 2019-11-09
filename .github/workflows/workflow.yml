@@ -13,23 +13,25 @@ on:
 
 jobs:
   test:
-    name: Test on ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [ubuntu-latest, windows-latest, macOS-latest]
-    runs-on: ${{ matrix.os }}
-    
+    # name: Test on ${{ matrix.os }}
+    # strategy:
+    #   matrix:
+    #     os: [ubuntu-latest, windows-latest, macOS-latest]
+    # runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
+
     steps:
     - uses: actions/checkout@v1
-      
-    - uses: actions/setup-node@v1
-      with:
-        node-version: '12.x'
+    - uses: ./action
 
-    - run: npm ci
+    # - uses: actions/setup-node@v1
+    #   with:
+    #     node-version: '12.x'
 
-    - name: Prettier Format Check
-      run: npm run format-check
+    # - run: npm ci
 
-    - name: Build & Test
-      run: npm run test
+    # - name: Prettier Format Check
+    #   run: npm run format-check
+
+    # - name: Build & Test
+    #   run: npm run test
