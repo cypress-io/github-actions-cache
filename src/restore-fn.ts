@@ -9,7 +9,7 @@ import { Inputs, State } from "./constants";
 import * as utils from "./utils/actionUtils";
 
 /**
- * Restore previously saved cache
+ * Restore previously saved cache. Resolves with true if cache was hit.
  */
 export async function restoreCache(
     inputPath: string,
@@ -36,21 +36,21 @@ export async function restoreCache(
             core.setFailed(
                 `Key Validation Error: Keys are limited to a maximum of 10.`
             );
-            return;
+            return false;
         }
         for (const key of keys) {
             if (key.length > 512) {
                 core.setFailed(
                     `Key Validation Error: ${key} cannot be larger than 512 characters.`
                 );
-                return;
+                return false;
             }
             const regex = /^[^,]*$/;
             if (!regex.test(key)) {
                 core.setFailed(
                     `Key Validation Error: ${key} cannot contain commas.`
                 );
-                return;
+                return false;
             }
         }
 
@@ -60,7 +60,7 @@ export async function restoreCache(
                 core.info(
                     `Cache not found for input keys: ${keys.join(", ")}.`
                 );
-                return;
+                return false;
             }
 
             let archivePath = path.join(
@@ -106,11 +106,14 @@ export async function restoreCache(
             core.info(
                 `Cache restored from key: ${cacheEntry && cacheEntry.cacheKey}`
             );
+            return isExactKeyMatch;
         } catch (error) {
             core.warning(error.message);
             utils.setCacheHitOutput(false);
+            return false;
         }
     } catch (error) {
         core.setFailed(error.message);
+        return false;
     }
 }
