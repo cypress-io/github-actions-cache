@@ -9,16 +9,12 @@ import * as cacheHttpClient from "./cacheHttpClient";
 import { Inputs, State } from "./constants";
 import * as utils from "./utils/actionUtils";
 
-export async function saveCache() {
+export async function saveCache(inputPath: string, primaryKey: string) {
+    console.log("saving cache path %s", inputPath);
+    console.log("primary key %s", primaryKey);
+
     try {
         const state = utils.getCacheState();
-
-        // Inputs are re-evaluted before the post action, so we want the original key used for restore
-        const primaryKey = core.getState(State.CacheKey);
-        if (!primaryKey) {
-            core.warning(`Error retrieving key from state.`);
-            return;
-        }
 
         if (utils.isExactKeyMatch(primaryKey, state)) {
             core.info(
@@ -27,9 +23,7 @@ export async function saveCache() {
             return;
         }
 
-        let cachePath = utils.resolvePath(
-            core.getInput(Inputs.Path, { required: true })
-        );
+        let cachePath = utils.resolvePath(inputPath);
         core.debug(`Cache Path: ${cachePath}`);
 
         let archivePath = path.join(
