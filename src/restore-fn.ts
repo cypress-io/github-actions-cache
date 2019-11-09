@@ -11,22 +11,23 @@ import * as utils from "./utils/actionUtils";
 /**
  * Restore previously saved cache
  */
-export async function restoreCache() {
+export async function restoreCache(
+    inputPath: string,
+    primaryKey: string,
+    restoreKeys: string
+) {
+    console.log("restoring cache %s", inputPath);
+    console.log("primary key %s", primaryKey);
+
     try {
         // Validate inputs, this can cause task failure
-        let cachePath = utils.resolvePath(
-            core.getInput(Inputs.Path, { required: true })
-        );
+        let cachePath = utils.resolvePath(inputPath);
         core.debug(`Cache Path: ${cachePath}`);
 
-        const primaryKey = core.getInput(Inputs.Key, { required: true });
         core.saveState(State.CacheKey, primaryKey);
 
-        const restoreKeys = core
-            .getInput(Inputs.RestoreKeys)
-            .split("\n")
-            .filter(x => x !== "");
-        const keys = [primaryKey, ...restoreKeys];
+        const restoredKeys = restoreKeys.split("\n").filter(x => x !== "");
+        const keys = [primaryKey, ...restoredKeys];
 
         core.debug("Resolved Keys:");
         core.debug(JSON.stringify(keys));
