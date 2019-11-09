@@ -4,7 +4,8 @@ __tests__/runner/*
 dist/
 
 node_modules/
-lib/
+# temporarily comment out and commit "lib" commonjs code
+# lib/
 
 # Rest pulled from https://github.com/github/gitignore/blob/master/Node.gitignore
 # Logs
