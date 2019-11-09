@@ -23,7 +23,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
-    - uses: ./action
+    - uses: .
 
     # - uses: actions/setup-node@v1
     #   with:
