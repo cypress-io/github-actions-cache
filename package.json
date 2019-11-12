@@ -11,6 +11,10 @@
     "format-check": "prettier --check **/*.ts",
     "release": "ncc build -o dist/restore src/restore.ts && ncc build -o dist/save src/save.ts && git add -f dist/"
   },
+  "files": [
+    "src",
+    "lib"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/actions/cache.git"
