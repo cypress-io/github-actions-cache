@@ -54,14 +54,14 @@ async function run() {
         core.debug(`Tar Path: ${tarPath}`);
         await exec(`"${tarPath}"`, args);
 
-        const fileSizeLimit = 400 * 1024 * 1024; // 400MB
+        // https://help.github.com/en/actions/automating-your-workflow-with-github-actions/caching-dependencies-to-speed-up-workflows#usage-limits-and-eviction-policy
+        const fileSizeLimit = 5 * 1024 * 1024 * 1024; // 5GB
         const archiveFileSize = fs.statSync(archivePath).size;
         core.debug(`File Size: ${archiveFileSize}`);
         if (archiveFileSize > fileSizeLimit) {
             core.warning(
-                `Cache size of ${archiveFileSize} bytes is over the 400MB limit, not saving cache.`
+                `Cache size of ${archiveFileSize} bytes is over the 5GB limit. GitHub will begin evicting caches until the total size is less than 5 GB.`
             );
-            return;
         }
 
         const stream = fs.createReadStream(archivePath);
