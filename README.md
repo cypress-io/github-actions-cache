@@ -1,3 +1,7 @@
+# ARCHIVED ⚠️
+
+Since [actions/cache](https://github.com/actions/cache) added NPM module to save and restore cache. See example changed code in [pull request](https://github.com/cypress-io/github-action/pull/208).
+
 # cache
 
 This GitHub Action allows caching dependencies and build outputs to improve workflow execution time.
